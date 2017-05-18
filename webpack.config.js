@@ -15,8 +15,33 @@ module.exports = {
         port: 3030//webpack-dev-server的监听端口，默认为8080
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()//热模块替换插件
+        new webpack.HotModuleReplacementPlugin(),//热模块替换插件
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: function () {
+                    return [
+                        require('autoprefixer')
+                    ];
+                }
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            output: {
+                comments: false,  // remove all comments
+            },
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+            },
+        })
     ],
+    resolve: {
+        extensions: ['.web.js', '.js', '.json', '.jsx']
+    },
     module: {
         //loaders加载器
         loaders: [
@@ -31,8 +56,17 @@ module.exports = {
             },
             {
                 test: /\.(css|sass|scss)$/,
-                loader: 'style-loader!css-loader?modules&localIdentName=[name]__[local]!sass-loader?sourceMap=true'
+                loader: 'style-loader!css-loader?localIdentName=css/[name]__[local]!sass-loader?sourceMap=true'
+            },
+            {
+                test: /\.(less)$/,
+                loader: 'style-loader!css-loader!localIdentName=css/[name]__[local]!less-loader!postcss-loader?sourceMap=true'
+            },
+            {
+                // 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
+                test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+                loader: 'file-loader?name=fonts/[name].[ext]',
             }
         ]
     }
-}
+};

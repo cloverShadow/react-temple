@@ -1,10 +1,7 @@
 (function () {
     'use strict';
-    /*jshint node:true*/
-
     var express = require('express');
     var compression = require('compression');
-    // var cookieParser = require('cookie-parser');
     var url = require('url');
     var request = require('request');
     var session = require('express-session');
@@ -36,9 +33,6 @@
         return yargs.showHelp();
     }
 
-    // eventually this mime type configuration will need to change
-    // https://github.com/visionmedia/send/commit/d2cb54658ce65948b0ed6e5fb5de69d022bef941
-    // *NOTE* Any changes you make here must be mirrored in web.config.
     var mime = express.static.mime;
     mime.define({
         'application/json': ['czml', 'json', 'geojson', 'topojson'],
@@ -57,7 +51,6 @@
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
-    // app.use(cookieParser());
     app.use(session({
         resave: true, // don't save session if unmodified
         saveUninitialized: false, // don't create session until something stored
@@ -68,12 +61,10 @@
     function getRemoteUrlFromParam(req) {
         var remoteUrl = req.params[0];
         if (remoteUrl) {
-            // add http:// to the URL if no protocol is present
             if (!/^https?:\/\//.test(remoteUrl)) {
                 remoteUrl = 'http://' + remoteUrl;
             }
             remoteUrl = url.parse(remoteUrl);
-            // copy query string
             remoteUrl.search = url.parse(req.url).search;
         }
         return remoteUrl;
@@ -101,10 +92,8 @@
     }
 
     app.get('/proxy/*', function (req, res, next) {
-        // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
         var remoteUrl = getRemoteUrlFromParam(req);
         if (!remoteUrl) {
-            // look for request like http://localhost:8080/proxy/?http%3A%2F%2Fexample.com%2Ffile%3Fquery%3D1
             remoteUrl = Object.keys(req.query)[0];
             if (remoteUrl) {
                 remoteUrl = url.parse(remoteUrl);
@@ -124,7 +113,6 @@
             proxy = upstreamProxy;
         }
 
-        // encoding : null means "body" passed to the callback will be raw bytes
 
         request.get({
             url: url.format(remoteUrl),
@@ -143,17 +131,11 @@
         });
     });
 
-    app.get('/lalala/', function (req, res) {
-        if (!req.session.user) {
-            res.send('nb');
-        }
-    });
-
     var server = app.listen(argv.port, argv.public ? undefined : '', function () {
         if (argv.public) {
-            console.log('Cesium development server running publicly.  Connect to http://localhost:%d/', server.address().port);
+            console.log('Development server running publicly.  Connect to http://localhost:%d/', server.address().port);
         } else {
-            console.log('Cesium development server running locally.  Connect to http://localhost:%d/', server.address().port);
+            console.log('Development server running locally.  Connect to http://localhost:%d/', server.address().port);
         }
     });
 
@@ -172,19 +154,19 @@
     });
 
     server.on('close', function () {
-        console.log('Cesium development server stopped.');
+        console.log('Development server stopped.');
     });
 
     var isFirstSig = true;
     process.on('SIGINT', function () {
         if (isFirstSig) {
-            console.log('Cesium development server shutting down.');
+            console.log('Development server shutting down.');
             server.close(function () {
                 process.exit(0);
             });
             isFirstSig = false;
         } else {
-            console.log('Cesium development server force kill.');
+            console.log('Development server force kill.');
             process.exit(1);
         }
     });

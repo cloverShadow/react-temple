@@ -4,7 +4,7 @@ module.exports = {
     devtool: 'eval-source-map',
     entry: ['webpack/hot/dev-server', path.join(__dirname, "./source/app.jsx")],
     output: {
-        path: path.join(__dirname, './build'),
+        path: path.join(__dirname, './build/static/manageName/plugin'),
         filename: 'application.js'
     },
     devtool: 'source-map',

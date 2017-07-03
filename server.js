@@ -4,7 +4,6 @@
     var compression = require('compression');
     var url = require('url');
     var request = require('request');
-    var session = require('express-session');
 
     var yargs = require('yargs').options({
         'port': {
@@ -51,11 +50,6 @@
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
-    app.use(session({
-        resave: true, // don't save session if unmodified
-        saveUninitialized: false, // don't create session until something stored
-        secret: 'love'
-    }));
     app.use(express.static(__dirname));
 
     function getRemoteUrlFromParam(req) {

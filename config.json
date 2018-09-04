@@ -25,7 +25,7 @@
     {
       "DownstreamPathTemplate": "/gt/net_amount",
       "DownstreamScheme": "http",
-      "DownstreamHttpMethod": "get",
+      "DownstreamHttpMethod": "post",
       "DownstreamHostAndPorts": {
         "Host": "10.244.2.37",
         "Port": 3030

@@ -1,0 +1,37 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/gt/oauth/access_token",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "get",
+      "DownstreamHostAndPorts": {
+        "Host": "10.244.2.22",
+        "Port": 3030
+      },
+      "UpstreamPathTemplate": "/gt/test/oauth",
+      "UpstreamHttpMethod": "get"
+    },
+    {
+      "DownstreamPathTemplate": "/gt/net_office_nav",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "get",
+      "DownstreamHostAndPorts": {
+        "Host": "10.244.2.37",
+        "Port": 3030
+      },
+      "UpstreamPathTemplate": "/gt/futengbao/net_office_nav",
+      "UpstreamHttpMethod": "get"
+    },
+    {
+      "DownstreamPathTemplate": "/gt/net_amount",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "get",
+      "DownstreamHostAndPorts": {
+        "Host": "10.244.2.37",
+        "Port": 3030
+      },
+      "UpstreamPathTemplate": "/gt/futengbao/net_amount",
+      "UpstreamHttpMethod": "get"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
         "Host": "10.244.2.22",
         "Port": 3030
       },
-      "UpstreamPathTemplate": "/gt/test/oauth",
+      "UpstreamPathTemplate": "/gt/oauth/access_token",
       "UpstreamHttpMethod": "get"
     },
     {
@@ -16,22 +16,47 @@
       "DownstreamScheme": "http",
       "DownstreamHttpMethod": "get",
       "DownstreamHostAndPorts": {
-        "Host": "10.244.2.37",
+        "Host": "10.244.2.43",
         "Port": 3030
       },
       "UpstreamPathTemplate": "/gt/futengbao/net_office_nav",
-      "UpstreamHttpMethod": "get"
+      "UpstreamHttpMethod": "get",
+      "verification": "oauth2.0"
     },
     {
       "DownstreamPathTemplate": "/gt/net_amount",
       "DownstreamScheme": "http",
       "DownstreamHttpMethod": "post",
       "DownstreamHostAndPorts": {
-        "Host": "10.244.2.37",
+        "Host": "10.244.2.43",
         "Port": 3030
       },
       "UpstreamPathTemplate": "/gt/futengbao/net_amount",
-      "UpstreamHttpMethod": "get"
+      "UpstreamHttpMethod": "post",
+      "verification": "oauth2.0"
+    },
+    {
+      "DownstreamPathTemplate": "/gt/realtime_net_amount",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "post",
+      "DownstreamHostAndPorts": {
+        "Host": "10.244.2.43",
+        "Port": 3030
+      },
+      "UpstreamPathTemplate": "/gt/futengbao/realtime_net_amount",
+      "UpstreamHttpMethod": "post",
+      "verification": "oauth2.0"
+    },
+    {
+      "DownstreamPathTemplate": "/gt/cgi/access_token",
+      "DownstreamScheme": "http",
+      "DownstreamHttpMethod": "post",
+      "DownstreamHostAndPorts": {
+        "Host": "10.244.2.47",
+        "Port": 3030
+      },
+      "UpstreamPathTemplate": "/gt/wechart/jssdk/sign",
+      "UpstreamHttpMethod": "post"
     }
   ]
 }
